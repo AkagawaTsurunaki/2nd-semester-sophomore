@@ -182,7 +182,6 @@ Only values occurring in the primary key attribute of the **referenced relation*
     - Each of ${F_1, F_2, \cdots, F_n}$ are arithmetic expressions involving constants and attributes in the schema of *E*.
   - **Example**: $\Pi_{\text{name, money-balance}(\text{creditinfo})}$
 - **Aggregate Functions** $\mathcal{G}_{F_1(A_1), F_2(A_2), \cdots, F_n(A_n)}(E)$      $_{G_1, G_2, \cdots, G_n} \mathcal{G}_{F_1(A_1), F_2(A_2), \cdots, F_n(A_n)}(E)$
-
   - **Operation**: Aggregate function takes a collection of values and returns a single value as a result.
     - **Some operations**: `avg`, `min`, `max`, `sum`, `count`.
     - Result of aggregation does not have a name, so we can use rename operation to give it a name. For convenience, we permit renaming `as` as part of aggregate operation. For example, $_\text{branch\_name} \mathcal{G} _\text{sum(balance) as sum-balance}  (\text{account})$
@@ -303,14 +302,6 @@ alter table r drop A
 
 ### Basic Query Structure
 
-```sql
-select A_1, A_2, ..., A_n
-from r_1, r_2, ..., r_m
-where P;
-```
-
-$\Pi_{A_1, A_2, \cdots, A_n} \left( \sigma_P (r_1 \times r_2 \times \cdots \times r_m) \right)$
-
 #### The select clause
 
 ```sql
@@ -346,9 +337,74 @@ Comparison operation: `<`, `>`, `<=`, `>=`, `==`, `<>`.
 
 The from clause lists the relations involved in the query.
 
+#### The Rename Operation
+
+```sql
+old-name as new-name
+```
+
+#### String Operations
+
+```sql
+select customer_name
+from customer
+where customer_street like '% Main_%' 
+# The % character matches any substring that have any length (can be 0).
+# The _ character matches any character.
+```
+
+- SQL supports a variety of string operations such as
+
+  - concatenation (using “||”)
+
+  - converting from upper to lower case (and vice versa)
+
+  - finding string length, extracting substrings, etc.
+
+#### Ordering the Display of Tuples
+
+```sql
+select *
+from loan
+order by amount desc, loan_number asc
+# For each attribute, ascending order is the default
+```
+
+#### Duplicates
+
+```sql
+select A_1, A_2, ..., A_n
+from r_1, r_2, ..., r_m
+where P;
+```
+
+$\Pi_{A_1, A_2, \cdots, A_n} \left( \sigma_P (r_1 \times r_2 \times \cdots \times r_m) \right)$
+
 ### Set Operations
 
+- The set operations `union`, `intersect`, and `except` operate on relations and correspond to the relational algebra operations $\cup, \cap, -$.
+- Each of the above operations automatically eliminates duplicates.
+- To retain all duplicates use the corresponding multiset versions `union all`, `intersect all` and `except all`.
+
 ### Aggregate Functions
+
+Operations: `avg`, `min`, `max`, `sum`, `count`.
+
+```sql
+select branch_name, count (distinct customer_name)
+from depositor, account
+where depositor.account_number = account.account_number
+group by branch_name
+# Attributes in select clause outside of aggregate functions must appear in group by list
+```
+
+```sql
+select branch_name, avg (balance)
+from account
+group by branch_name
+having avg (balance) > 1200
+# Predicates in the having clause are applied after the formation of groups whereas predicates in the where clause are applied before forming groups
+```
 
 ### Null Values
 
