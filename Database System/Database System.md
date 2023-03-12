@@ -237,3 +237,130 @@ Only values occurring in the primary key attribute of the **referenced relation*
 - Updating $r \leftarrow \Pi_{F_1, F_2, \cdots, F_i}(r)$
 
 ## Chapter 3: SQL
+
+### Data Definition
+
+#### History (Omitted)
+
+#### Data Definition Language (Omitted)
+
+#### Domain Types in SQL
+
+`char(n)`: user-specified
+
+`varchar(n)`: user-specified
+
+`int`: machine-dependent
+
+`smallint`: machine-dependent
+
+`numeric(p, d)`: d digits to the right of decimal point; user specified precision of p digits.
+
+`real, double precision`: machine-dependent
+
+`float(n)`: user-specified
+
+#### Create Table Construct
+
+```sql
+create table r(A_1 D_1, A_2 D_2, ..., A_N D_N,
+(integrity-constraint_1),
+...,
+(integrity-constraint_k))
+```
+
+#### Integrity Constraints
+
+not null
+
+primary key (A_1, ..., A_n )
+
+#### Drop Table Constructs
+
+```sql
+drop table r
+# Deletes not only all tuples of r, but also the schema for r
+```
+
+```sql
+delete table r
+# Retains relation r, but deletes all tuples in r
+```
+
+#### Alter Table Constructs
+
+```sql
+alter table r add A D
+# The alter table command is used to add attributes to an existing relation.
+# All tuples in the relation are assigned null as the value for the new attribute.
+```
+
+```sql
+alter table r drop A
+# The alter table command can also be used to drop attributes of a relation.
+# Dropping of attributes is not supported by many databases
+```
+
+### Basic Query Structure
+
+```sql
+select A_1, A_2, ..., A_n
+from r_1, r_2, ..., r_m
+where P;
+```
+
+$\Pi_{A_1, A_2, \cdots, A_n} \left( \sigma_P (r_1 \times r_2 \times \cdots \times r_m) \right)$
+
+#### The select clause
+
+```sql
+select distinct branch_name # To force the elimination of duplicates, insert the keyword distinct after select.
+from loan
+```
+
+```sql
+select all branch_name # The keyword all specifies that duplicates not be removed. Default is all
+from loan
+```
+
+```sql
+select * from loan
+# An asterisk in the select clause denotes "all attributes"
+```
+
+```sql
+select loan_number, branch_name, amount*100
+from loan
+# contain arithmetic expressions(+-*/)
+```
+
+#### The where clause
+
+The where clause specifies conditions that the result must satisfy.
+
+Logical connectives: `and`, `or`, `not`
+
+Comparison operation: `<`, `>`, `<=`, `>=`, `==`, `<>`.
+
+#### The from clause
+
+The from clause lists the relations involved in the query.
+
+### Set Operations
+
+### Aggregate Functions
+
+### Null Values
+
+### Nested Subqueries
+
+### Complex Queries 
+
+### Views
+
+### Modification of the Database
+
+### Joined Relations** 
+
+
+
