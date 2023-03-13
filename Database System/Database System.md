@@ -176,7 +176,6 @@ Only values occurring in the primary key attribute of the **referenced relation*
 #### Extended Relational-Algebra-Operations
 
 - **Generalized Projection** $\Pi_{F_1, F_2, \cdots, F_n}(E)$
-
   - **Operation**: Extends the projection operation by allowing arithmetic functions to be used in the projection list.
     - *E* is any relational-algebra expression.
     - Each of ${F_1, F_2, \cdots, F_n}$ are arithmetic expressions involving constants and attributes in the schema of *E*.
@@ -185,7 +184,7 @@ Only values occurring in the primary key attribute of the **referenced relation*
   - **Operation**: Aggregate function takes a collection of values and returns a single value as a result.
     - **Some operations**: `avg`, `min`, `max`, `sum`, `count`.
     - Result of aggregation does not have a name, so we can use rename operation to give it a name. For convenience, we permit renaming `as` as part of aggregate operation. For example, $_\text{branch\_name} \mathcal{G} _\text{sum(balance) as sum-balance}  (\text{account})$
-    - ![image-20230312093149317](\Database System\Database System.assets\image-20230312093149317.png)
+    - ![image-20230312093149317](\Database System.assets\image-20230312093149317.png)
   - **Examples**:
 
 ![image-20230312092922163](\Database System.assets\image-20230312092922163.png)
@@ -193,9 +192,8 @@ Only values occurring in the primary key attribute of the **referenced relation*
 ![image-20230312093218767](\Database System.assets\image-20230312093218767-16785879828311.png)
 
 - **Outer Join** ⟕ ⟖ ⟗
-
   - **Operation**:
-
+  
     - An extension of the join operation that avoids loss of information
     - Computes the join and then adds tuples from one relation that does not match tuples in the other relation to the result of the join
     - Uses *null* values.
@@ -408,9 +406,161 @@ having avg (balance) > 1200
 
 ### Null Values
 
+- It is possible for tuples to have a `null` value, denoted by `null`, for some of their attributes.
+- `null` signifies an unknown value or that a value does not exist.
+- The predicate is `null` can be used to check for `null` values.
+
+- The result of any arithmetic expression involving *null* is *null*
+
+- Any comparison with `null` returns `unknown`
+
+- Three-valued logic using the truth value `unknown`:
+
+  - OR
+
+    - (*unknown* **or** *true*)  = *true*,
+
+    - (*unknown* **or** *false*) = *unknown*
+
+    - (*unknown* **or** *unknown) = unknown*
+
+  - AND 
+    - *(true* **and** unknown) = unknown,  
+    - (false **and** unknown) = false,
+    - (unknown **and** *unknown) = unknown*
+
+  - NOT
+    - (**not** *unknown) = unknown*
+
+- Result of where clause predicate is treated as `false` if it evaluates to `unknown`
+- All aggregate operations except `count(*)` ignore tuples with `null` values on the aggregated attributes
+
 ### Nested Subqueries
 
-### Complex Queries 
+SQL provides a mechanism for the nesting of subqueries.
+A subquery is a select-from-where expression that is nested within another query.
+A common use of subqueries is to perform tests for **set membership**, **set comparisons**, and **set cardinality**
+
+#### Set Membership 
+
+```sql
+select distinct customer_name
+from borrower, loan
+where borrower.loan_number = loan.loan_number and branch_name = 'Aka' and (branch_name, customer_name) 
+in (
+    select branch_name, customer_name 
+    from depositor, account 
+    where depositor.account_number = account.account_number
+)
+```
+
+#### Set Comparison
+
+```sql
+# Find all branches that have greater assets than some branch located in Brooklyn.
+select branch_name
+from branch
+where assets > some (
+    select assets
+ 	from branch
+ 	where branch_city = 'Brooklyn'
+) 
+```
+
+### Complex Queries
+
+#### Definition of Some Clause
+
+`F <comp> some r ` $\Leftrightarrow \exist t \in r$
+
+![image-20230313093503166](\Database System.assets\image-20230313093503166.png)
+
+`F <comp> all r` $\Leftrightarrow \forall t \in r (F <\text{comp}> t)$
+
+![image-20230313092709241](\Database System.assets\image-20230313092709241.png)
+
+Example: 
+
+```sql
+# Find the names of all branches that have greater assets than all branches located in Brooklyn
+select branch_name
+from branch
+where assets > all (
+	select assets
+	from branch
+	where branch_city = 'Brooklyn'
+) 
+```
+
+#### Test for Empty Relations
+
+The **exists** construct returns the value **true** if the argument subquery is nonempty.
+
+**exists**  $r  \Leftrightarrow  r \neq \varnothing$
+
+**not exists** $r  \Leftrightarrow  r = \varnothing$
+
+#### Test for Absence of Duplicate Tuples
+
+The `unique` construct tests whether a subquery has any duplicate tuples in its result.
+
+```sql
+# Find all customers who have at least two accounts at the Perryridge branch. 
+select T.customer_name
+from depositor as T
+where unique (
+     select R.customer_name
+     from account, depositor as R
+     where T.customer_name = R.customer_name 
+    	   and R.account_number = account.account_number
+    	   and account.branch_name = 'Perryridge'
+)
+```
+
+#### Derived Relations
+
+SQL allows a subquery expression to be used in the `from` clause.
+
+```sql
+# Find the average account balance of those branches where the average account balance is greater than $1200
+select branch_name, avg_balance
+from (
+    select branch_name, avg (balance)
+    from account
+    group by branch_name
+) as branch_avg (branch_name, avg_balance)
+where avg_balance > 1200
+```
+
+#### With Clause
+
+The `with` clause provides a way of defining a temporary view whose definition is available only to the query in which the `with ` clause occurs.
+
+```sql
+# Find all accounts with the maximum balance
+with max_balance (value) as
+	select max (balance)
+	from account
+select account_number
+from account, max_balance
+where account.balance = max_balance.value
+```
+
+#### Complex Queries using With Clause
+
+```sql
+# Find all branches where the total account deposit is greater than the average of the total account deposits at all branches.
+with branch_total (branch_name, value) as
+	select branch_name, sum (balance)
+	from account
+	group by branch_name
+with branch_total_avg (value) as
+	select avg (value)
+	from branch_total
+select branch_name
+from branch_total, branch_total_avg
+where branch_total.value >= branch_total_avg.value
+```
 
 ### Views
 
