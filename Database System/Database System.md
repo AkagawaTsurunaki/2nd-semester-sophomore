@@ -564,7 +564,56 @@ where branch_total.value >= branch_total_avg.value
 
 ### Views
 
+#### Definition
+
+A view is defined using the create view statement which has the form.
+
+`create view v as < query expression >`
+
+Once a view is defined, the view name can be used to refer to the virtual relation that the view generates.
+When a view is created, the query expression is stored in  the database; the expression is substituted into queries using the view.
+
+```sql
+# A view consisting of branches and their customers
+create view all_customer as
+	(select branch_name, customer_name
+     from depositor, account
+     where depositor.account_number = account.account_number)
+    union
+    (select branch_name, customer_name
+     from borrower, loan
+     where borrower.loan_number = loan.loan_number)
+# Find all customers of the Perryridge branch
+select customer_name
+from all_customer
+where branch_name = 'Perryridge' 
+```
+
+#### Views Defined Using Other Views
+
+- One view may be used in the expression defining another view 
+- A view relation v1 is said to **depend directly** on a view relation v2  if v2 is used in the expression defining v1
+- A view relation v1 is said to **depend** on view relation v2 if either v1 depends directly to v2  or there is a path of dependencies from v1 to v2 
+- A view relation v is said to be **recursive** if it depends on itself.
+
+#### View Expansion
+
+- A way to define the meaning of views defined in terms of other views.
+- Let view v1 be defined by an expression e1 that may itself contain uses of view relations.
+- View expansion of an expression repeats the following replacement step:
+
+```
+repeat
+	Find any view relation vi in e1
+	Replace the view relation vi by the expression defining vi
+	until no more view relations are present in e1
+
+As long as the view definitions are not recursive, this loop will terminate
+```
+
 ### Modification of the Database
+
+
 
 ### Joined Relations** 
 
