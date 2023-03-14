@@ -671,9 +671,51 @@ insert into branch_loan values ('L-37‘, 'Perryridge‘)
 # Represented by the insertion of the tuple ('L-37', 'Perryridge', null) into the loan relation
 ```
 
-PPT 79 
+- Most SQL implementations allow updates only on simple views (without aggregates) defined on a single relation
 
 ### Joined Relations
 
+#### Join Type
 
+- Definition: defines how tuples in each relation that do not match any tuple in the other relation (based on the join condition) are treated.
+- Types: 
+  - inner join
+  - left outer join
+  - right outer join
+  - full outer join
 
+#### Example
+
+![image-20230314133205842](\DatabaseSystem.assets\image-20230314133205842.png)
+
+```sql
+loan inner join borrower on loan.loan_number = borrower.loan_number
+```
+
+![image-20230314133329818](\DatabaseSystem.assets\image-20230314133329818.png)
+
+```sql
+loan left outer join borrower on loan.loan_number = borrower.loan_number
+```
+
+![image-20230314133427131](\DatabaseSystem.assets\image-20230314133427131.png)
+
+```sql
+loan natural inner join borrower
+```
+
+![image-20230314133722488](\DatabaseSystem.assets\image-20230314133722488.png)
+
+```sql
+loan natural right outer join borrower
+```
+
+![image-20230314134006684](\DatabaseSystem.assets\image-20230314134006684.png)
+
+```sql
+loan full outer join borrower using (loan_number)
+```
+
+![image-20230314134051877](\DatabaseSystem.assets\image-20230314134051877.png)
+
+## Chapter 4
