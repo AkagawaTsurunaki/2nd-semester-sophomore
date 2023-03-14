@@ -597,7 +597,7 @@ where branch_name = 'Perryridge'
 #### View Expansion
 
 - A way to define the meaning of views defined in terms of other views.
-- Let view v1 be defined by an expression e1 that may itself contain uses of view relations.
+- Let view $v_1$ be defined by an expression $e_1$ that may itself contain uses of view relations.
 - View expansion of an expression repeats the following replacement step:
 
 ```
@@ -610,6 +610,68 @@ As long as the view definitions are not recursive, this loop will terminate
 ```
 
 ### Modification of the Database
+
+#### Delete
+
+```sql
+# Delete all account tuples at the Perryridge branch
+delete from account
+where branch_name = 'Perryridge'
+# Delete all accounts at every branch located in the city ‘Needham’.
+delete from account
+where branch_name in (
+    select branch_name 
+    from branch
+    where branch_city = 'Needham'
+)
+```
+
+#### Insert
+
+```sql
+# Add a new tuple to account
+insert into account
+values ('A-9732', 'Perryridge', 1200)
+# Or Equivalently  
+insert into account (branch_name, balance, account_number)
+values ('Perryridge',  1200, 'A-9732') 
+# Add a new tuple to account with balance set to null
+insert into account
+values ('A-777','Perryridge', null )
+```
+
+#### Update
+
+```sql
+# Increase all accounts with balances over $10,000 by 6%, all other accounts receive 5%.
+# Write two update statements:
+update account set balance = balance * 1.06 where balance > 10000
+update account set balance = balance * 1.05 where balance <= 10000
+# The order is important
+# Can be done better using the case statement (next slide)
+```
+
+```sql
+# Case Statement for Conditional Updates
+update account 
+set balance = case
+				when balance <= 10000
+					then balance *1.05
+				else balance * 1.06
+			  end
+```
+
+#### Update Through Views
+
+```sql
+# Create a view of all loan data in the loan relation, hiding the amount attribute
+create view loan_branch as select loan_number, branch_name from loan
+# Add a new tuple to branch_loan
+insert into branch_loan values ('L-37‘, 'Perryridge‘)
+# Represented by the insertion of the tuple ('L-37', 'Perryridge', null) into the loan relation
+```
+
+PPT 79 
 
 ### Joined Relations
 
