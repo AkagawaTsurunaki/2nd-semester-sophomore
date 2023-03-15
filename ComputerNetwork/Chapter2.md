@@ -314,3 +314,28 @@ $t_{\text{trans}}$ = time to transmit max-size frame
 #### Plug-and-play, self-learning
 
 - Switches do not need to be configured
+
+#### Self learning
+
+- A switch has a switch table
+- Entry in switch table:
+  - (MAC Address, Interface, Time Stamp)
+  - Stale entries in table dropped (TTL can be 60 min)
+- Switch learns which hosts can be reached through which interfaces 
+  - when frame received, switch “learns” location of sender: incoming LAN segment
+  - records sender/location pair in switch table.
+
+#### Filtering/Forwarding
+
+```
+When switch receives a frame:
+	index switch table using MAC dest address
+	if entry found for destination
+        then {
+            if dest on segment from which frame arrived
+                then drop the frame
+            else forward the frame on interface indicated
+        }
+	else flood # forward on all but the interface on which the frame arrived
+```
+
