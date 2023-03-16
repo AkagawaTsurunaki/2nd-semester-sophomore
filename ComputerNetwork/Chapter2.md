@@ -1,5 +1,9 @@
 # CHAPTER 2 Link Layer and LANs
 
+> Author: AkagawaTsurunaki@github
+>
+> We recommend you open this file with Typora.
+
 ## 2.1 Introduction and services of Link Layer
 
 ### Some terminology
@@ -30,11 +34,100 @@
 
 ![image-20230316110518333](Chapter2.assets/image-20230316110518333.png)
 
+### Adaptors Communicating
+
+![image-20230316110805137](Chapter2.assets/image-20230316110805137.png)
+
 ## 2.2 Error detection and correction
+
+
+
+![image-20230316111441445](Chapter2.assets/image-20230316111441445.png)
+
+#### Parity Checking
+
+![image-20230316111743492](Chapter2.assets/image-20230316111743492.png)
+
+#### Internet checksum
+
+![image-20230316112852385](Chapter2.assets/image-20230316112852385.png)
+
+#### Ckecksumming: Cyclic Redundancy Check(CRC)
+
+![image-20230316113411969](Chapter2.assets/image-20230316113411969.png)
 
 ## 2.3 Multiple access Protocols
 
-Pure (unslotted ) ALOHA
+### 2.3.1 Multiple Access Links and Protocols
+
+#### Two types of “links
+
+##### point-to-point
+
+- PPP for dial-up access
+- point-to-point link between Ethernet switch and host
+
+##### broadcast (shared wire or medium)
+
+- traditional Ethernet
+- HFC
+- 802.11 wireless LAN
+
+### 2.3.2 Multiple Access protocols
+
+- Single shared broadcast channel
+- Two or more simultaneous transmissions by nodes: interference
+
+#### Multiple access protocol
+
+**Distributed algorithm**: Determines how nodes share channel, i.e., determine when node can transmit.
+**Note**: Communication about channel sharing must use channel itself! No out-of-band channel for coordination.
+
+### 2.3.3 Ideal Multiple Access Protocol
+
+#### Features
+
+- When $M$ nodes want to transmit, each can send at average rate $\dfrac{R}{M}$, supposed broadcast channel of rate $R$ bps.
+- Fully decentralized: 
+  - No special node to coordinate transmissions
+  - No synchronization of clocks, slots
+- Simple.
+
+### 2.3.4 MAC Protocols: a taxonomy
+
+#### Three broad classes
+
+##### Channel Partitioning
+
+- divide channel into smaller “pieces” (timeslots, frequency, code) 
+- allocate piece to node for exclusive use
+
+##### Random Access
+
+- Channel not divided, allow collisions
+  - “recover” from collisions
+
+##### “Taking turns”
+
+- l Nodes take turns, but nodes with more to send can take longer turns
+
+### 2.3.5 Channel Partitioning MAC protocols: TDMA (Time division multiple access)
+
+![image-20230316125325671](Chapter2.assets/image-20230316125325671.png)
+
+
+
+### 2.3.6 Channel Partitioning MAC protocols: FDMA (Frequency division multiple access)
+
+![image-20230316125407551](Chapter2.assets/image-20230316125407551.png)
+
+### 2.3.7 Random Access Protocols
+
+#### Slotted ALOHA
+
+![image-20230316131745153](Chapter2.assets/image-20230316131745153.png)
+
+#### Pure (unslotted ) ALOHA
 
 - unslotted aloha: simpler, no-sync
 
@@ -44,9 +137,9 @@ Pure (unslotted ) ALOHA
 
 efficiency: (proof omitted)
 
+![image-20230316131838166](Chapter2.assets/image-20230316131838166.png)
 
-
-## CSMA (Carrier Sense Multiple Access)
+#### CSMA (Carrier Sense Multiple Access)
 
 - **CSMA**: listen before transmit:
   - if channel sensed idle: transmit entire frame.
@@ -57,7 +150,7 @@ efficiency: (proof omitted)
   - **collision**: causes entire packet transmission, time wasted.
   - **note**: role of distance & propagation delay in determining collision probability.
 
-## CSMA/CD (Collision Detection)
+#### CSMA/CD (Collision Detection)
 
 - CSMA/CD: carrier sensing
 
@@ -72,7 +165,7 @@ efficiency: (proof omitted)
 
 ![image-20230313110330087](ComputerNetwork.assets\image-20230313110330087.png)
 
-## "Taking Turns" MAC Protocols
+### 2.3.8 "Taking Turns" MAC Protocols
 
 - Channel partitioning MAC protocols
 
@@ -106,7 +199,9 @@ efficiency: (proof omitted)
   - Latency
   - Single point of failure (token loss)
 
-## ETHERNET
+## 2.4 ETHERNET
+
+> Should be 2.5 according to PPT
 
 #### 2 Standards of Ethernet
 
