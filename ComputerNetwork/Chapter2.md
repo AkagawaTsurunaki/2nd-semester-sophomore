@@ -2,6 +2,34 @@
 
 ## 2.1 Introduction and services of Link Layer
 
+### Some terminology
+
+![image-20230316104912794](Chapter2.assets/image-20230316104912794.png)
+
+![image-20230316105146190](Chapter2.assets/image-20230316105146190.png)
+
+### Link Layer Service
+
+#### Framing, link access
+
+![image-20230316105641817](Chapter2.assets/image-20230316105641817.png)
+
+#### Reliable delivery between adjacent nodes
+
+![image-20230316105712776](Chapter2.assets/image-20230316105712776.png)
+
+#### Flow Control
+
+![image-20230316105954588](Chapter2.assets/image-20230316105954588.png)
+
+#### Error Detection
+
+![image-20230316110016202](Chapter2.assets/image-20230316110016202.png)
+
+#### Half-duplex and full-duplex
+
+![image-20230316110518333](Chapter2.assets/image-20230316110518333.png)
+
 ## 2.2 Error detection and correction
 
 ## 2.3 Multiple access Protocols
