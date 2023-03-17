@@ -101,17 +101,17 @@
 
 #### 2.3.4.1 Three broad classes
 
-##### Channel Partitioning
+**Channel Partitioning**
 
 - Divide channel into smaller “pieces” (timeslots, frequency, code) 
 - allocate piece to node for exclusive use
 
-##### Random Access
+**Random Access**
 
 - Channel not divided, allow collisions
   - “recover” from collisions
 
-##### “Taking turns”
+**“Taking turns”**
 
 - l Nodes take turns, but nodes with more to send can take longer turns
 
@@ -145,45 +145,44 @@
 
 #### 2.3.7.3 CSMA (Carrier Sense Multiple Access)
 
-- **CSMA**: listen before transmit:
+- **CSMA: listen before transmit**:
   - if channel sensed idle: transmit entire frame.
   - if busy: defer transmission.
 
 - **CSMA collisions**
   - **collisions can still occur**: because of propagation delay -> may not hear each other.
-  - **collision**: causes entire packet transmission, time wasted.
-  - **note**: role of distance & propagation delay in determining collision probability.
+  - **collision**: entire packet transmission, time wasted.
+  - **note**: role of **distance** & **propagation delay** in determining collision probability.
 
 #### 2.3.7.4 CSMA/CD (Collision Detection)
 
-- **CSMA/CD**: carrier sensing
+- **CSMA/CD: carrier sensing**
   - collisions detected within short time.
   
   - colliding transmission aborted, reducing channel wastage
   
 - **Collision detection**:
-  - easy in wired LANs: measure signal strengths, compare transmitted, received signals.(if signal become strong, may collision happen)
-  - difficult in wireless LANs: other signal from nature or mankind may affect signal.
+  - **Easy in wired LANs**: measure signal strengths, compare transmitted, received signals.(if signal become strong, may collision happen)
+  - **Difficult in wireless LANs**: other signal from nature or mankind may affect signal.
 
 ![image-20230313110330087](ComputerNetwork.assets\image-20230313110330087.png)
 
 ### 2.3.8 "Taking Turns" MAC Protocols
 
-- Channel partitioning MAC protocols
+#### 2.3.8.1 Types of protocols
 
+- Channel partitioning MAC protocols
   - Share channel efficiently and fairly at high load.
 
   - Inefficient at low load: 1/N bandwidth allocated even if only 1 active node!
-
 - Random access MAC protocols
 
   - Efficient at low load: single node can fully utilize channel.
 
   - High load: collision overhead.
-
 - "Taking turns" protocols
 
-#### Polling
+#### 2.3.8.2 Polling
 
 - Master node "invites" slave nodes to transmit in turn.
 
@@ -192,7 +191,7 @@
   - Latency
   - Single point of failure (master)
 
-#### Token passing -> Solve polling
+#### 2.3.8.3 Token passing -> Solve polling
 
 - Control token passed from one node to next sequentially.
 - Token message
@@ -205,13 +204,13 @@
 
 > Should be 2.5 according to PPT
 
-#### 2 Standards of Ethernet
+### 2.4.1 2 Standards of Ethernet
 
 DIX Ethernet V2
 
 IEEE 802.3
 
-#### 数据链路层的两个子层
+### 2.4.2 数据链路层的两个子层
 
 逻辑链路控制LLC(Logical Link Control)子层
 
@@ -219,7 +218,7 @@ IEEE 802.3
 
 与接入到传输媒体有关的内容都放在 MAC子层，而 LLC 子层则与传输媒体无关，不管采用何种协议的局域网对 LLC 子层来说都是透明的.
 
-##### 适配器(Adaptor)的作用
+### 2.4.3 适配器(Adaptor)的作用
 
 - NIC (Network Interface Card)网卡(网络接口卡)
 
@@ -231,7 +230,7 @@ IEEE 802.3
   - Implement Ethernet protocols.
 
 
-#### LAN Addresses & ARP
+### 2.4.4 LAN Addresses & ARP
 
 - Each adaptor on LAN has unique LAN address.
 
@@ -249,35 +248,31 @@ IEEE 802.3
 - MAC flat address ➜ portability
 - IP hierarchical address NOT portable: depends on IP subnet to which node is attached
 
+### 2.4.5 ARP: Address Resolution Protocol
 
-
-#### ARP: Address Resolution Protocol
-
-each IP node (host, router) on LAN has ARP table.
+Each IP node (host, router) on LAN has ARP table.
 
 ARP stored `<IP addr, MAC addr, TTL>`(Time to Live, typically 20 min)
 
+### 2.4.6 ARP protocol: Same LAN (network)
 
+**Process**: A → No B in APR table → Broadcast req B → Find B → B unicasts to A → A stored B's MAC
 
-#### ARP protocol: Same LAN (network)
+**Soft state**: Information may be invalid without notice or broadcast.
 
-A -> No B in APR Table -> Broadcast req B -> B单播 -> A -> stored B's MAC
+**ARP is "plug-and-play"**: Without intervention.
 
-**soft state**: info may be invalid without broadcasting or informing.
+### 2.4.7 ARP protocol: Routing to another LAN
 
-**ARP is "plug-and-play"**: without intervention.
+**Process**: A → not in A's ARP → A send to router -> router Find B in another LAN → ...
 
-#### ARP protocol: Routing to another LAN
-
-A -> not in same LAN -> A send to router -> -> find B in another LAN
-
-R has 2 ARP tables.
+R has 2 ARP tables, one is A, another one is B.
 
 modify src MAC and dest MAC
 
-#### Start topology(ommitted)
+### 2.4.8 Star topology(ommitted)
 
-#### Ethernet Frame Structure
+### 2.4.9 Ethernet Frame Structure
 
 ![image-20230313120924788](ComputerNetwork.assets\image-20230313120924788.png)
 
@@ -294,7 +289,7 @@ modify src MAC and dest MAC
 - CRC
   - 4 bytes
 
-#### 无效的MAC帧
+### 2.4.10 无效的MAC帧
 
 - 数据字段的长度与长度字段的值不一致；
 - 帧的长度不是整数个字节；
@@ -303,11 +298,11 @@ modify src MAC and dest MAC
 - 有效的 MAC 帧长度为 64 ~ 1518 字节之间。
 - 对于检查出的无效 MAC 帧就简单地丢弃。以太网不负责重传丢弃的帧。
 
-#### Unreliable, connectionless service
+### 2.4.11 Unreliable, connectionless service
 
-Connectionless: No handshaking between sending and receiving adapter.
+**Connectionless**: No handshaking between sending and receiving adapter.
 
-Unreliable: receiving adapter doesn’t send acks or nacks to sending adapter (e.g. gaps).
+**Unreliable**: receiving adapter doesn’t send acks or nacks to sending adapter (e.g. gaps).
 
 #### Ethernet uses CSMA/CD
 
@@ -330,115 +325,158 @@ Unreliable: receiving adapter doesn’t send acks or nacks to sending adapter (e
 
 ![image-20230315084404973](\ComputerNetwork.assets\image-20230315084404973.png)
 
-
-
-#### 以太网的重要特性
+### 2.4.12 以太网的重要特性
 
 - 使用 CSMA/CD 协议的以太网不能进行全双工通信而只能进行双向交替通信（半双工通信）。
 - 每个站在发送数据之后的一小段时间内，存在着遭遇碰撞的可能性。
 - 这种**发送的不确定性**使整个以太网的平均通信量远小于以太网的最高数据率。
 
-#### 争用期
+### 2.4.13 争用期
 
 - 最先发送数据帧的站，在发送数据帧后至多经过时间$2 \tau$（端到端往返时延）就可知道发送的数据帧是否遭受了碰撞。
 - 以太网的端到端往返时延$2 \tau$称为**争用期**，或**碰撞窗口**。
 - 经过争用期这段时间还没有检测到碰撞，才能肯定这次发送不会发生碰撞。
 
-#### 二进制指数类型退避算法 (truncated binary exponential type)
+### 2.4.14 二进制指数类型退避算法 (truncated binary exponential type)
 
 发生碰撞的站在停止发送数据后，要推迟（退避）一个随机时间才能再发送数据。
 确定基本退避时间，一般是取为争用期$2 \tau$
 
-定义重传次数 k ，$k \leq 10$，即
-$k = Min[重传次数, 10]$
-从整数集合$[0,1,…, (2^k -1)]$中随机地取出一个数，记为 r。重传所需的时延就是 r 倍的基本退避时间。
+定义重传次数 $k$ ，$k \leq 10$，即$k = \min{ \left \{ 重传次数, 10 \right \}  }$
+从整数集合$\left \{ 0,1,…, (2^k -1) \right \}$中随机地取出一个数，记为 $r$。重传所需的时延就是$r$倍的基本退避时间。
 当重传达 16 次仍不能成功时即丢弃该帧，并向高层报告。
 
-#### 争用期的长度(Omnitted)
+### 2.4.15 争用期的长度
 
-#### 最短有效帧长(ommitted)
+- 以太网取 51.2 μs 为争用期的长度.
+- 对于 10 Mb/s 以太网，在争用期内可发送512 bit，即 64 字节.
+- 以太网在发送数据时，若前 64 字节没有 发生冲突，则后续的数据就不会发生冲突。
 
-#### 强化碰撞
+### 2.4.16 最短有效帧长(ommitted)
+
+- 如果发生冲突，就一定是在发送的前 64字节之内。
+- 由于一**检测到冲突就立即中止发送**，这时已经发送出去的数据一定小于 64 字节。
+- 以太网规定了最短有效帧长为 64 字节，凡长度小于 64 字节的帧都是由于冲突而异常中止的**无效帧**。
+
+### 2.4.17 强化碰撞
 
 当发送数据的站一旦发现发生了碰撞时：
 
 - 立即停止发送数据；
 - 再继续发送若干比特的人为干扰信号(jamming signal)，以便让所有用户都知道现在已经发生了碰撞。
 
-#### 帧间最小间隔(Ommited)
+### 2.4.18 帧间最小间隔
 
-#### Ethernet CSMS/CD Algorithm
+- 帧间最小间隔为 9.6 μs，相当于 96 bit 的发送时间。
+- 一个站在检测到总线开始空闲后，还要等待 9.6 μs 才能再次发送数据。
+- 这样做是为了使刚刚收到数据帧的站的接收缓存来得及清理，做好接收下一帧的准备。
 
-![image-20230315091040252](\ComputerNetwork.assets\image-20230315091040252.png)
+### 2.4.19 Ethernet CSMS/CD Algorithm
 
-#### CSMA/CD efficiency
+1. Adaptor receives datagram from net layer & creates frame.
+2. If adapter senses channel idle, it starts to transmit frame. If it senses channel busy, waits until channel idle and then transmits.
+3. If adapter transmits entire frame without detecting another transmission, the adapter is done with frame.
+4. If adapter detects another transmission while transmitting, aborts and sends jam signal.
+5. After aborting, adapter enters exponential backoff: after the $m$ th collision, adapter chooses a $K$ at random from $\left \{ 0,1,2,…,2^m-1 \right \}$. Adapter waits $512K$ bit times and returns to Step 2.
 
-$$ e = \dfrac{1}{1 + 5\dfrac{t_{\text{prop}}}{t_{\text{trans}}}} $$
+### 2.4.20 CSMA/CD efficiency
+
+$$ \text{efficiency} = \dfrac{1}{1 + 5\dfrac{t_{\text{prop}}}{t_{\text{trans}}}} $$
 
 $t_{\text{prop}}$ = max prop between 2 nodes in LAN
 $t_{\text{trans}}$ = time to transmit max-size frame
 
-### 10BaseT and 100BaseT
+Much better than ALOHA, but still decentralized, simple, and cheap.
+
+### 2.4.21 10BaseT and 100BaseT
+
+#### Features
+
+- 10/100 Mbps rate; latter called “fast ethernet”.
+- T stands for Twisted Pair.
+- Nodes connect to a hub: “star topology”; 100 m max distance between nodes and hub.
 
 ![image-20230315093404437](\Chapter2.assets\image-20230315093404437.png)
 
 #### Hubs
 
-- Hubs are essentially physical-layer repeaters:
+##### Hubs are essentially physical-layer repeaters
 
-  - Bits coming from one link go out all other links.
-  - At the same rate.
-  - No frame buffering.
-  - No CSMA/CD at hub: adapters detect collisions.
-  - Provides net management functionality.
+- Bits coming from one link go out all other links.
+- At the same rate.
+- No frame buffering.
+- No CSMA/CD at hub: adapters detect collisions.
+- Provides net management functionality.
 
-- The working principle of hub
+##### The working principle of hub
 
-  - Peer to peer
+- Peer to peer
 
-  ![image-20230315093830622](\Chapter2.assets\image-20230315093830622.png)
+![image-20230315093830622](\Chapter2.assets\image-20230315093830622.png)
 
-  - B、点到多点通信
+- 点到多点通信
 
-
+![image-20230317204708671](Chapter2.assets/image-20230317204708671.png)
 
 ### Manchester encoding
 
 ![image-20230315094059316](Chapter2.assets/image-20230315094059316.png)
 
-- To Sync clock
+- Used in 10BaseT.
+- Each bit has a transition.
+- Allows clocks in sending and receiving nodes to synchronize to each other.
+  - no need for a centralized, global clock among nodes.
 
-### Gbit Ethernet(Ommitted)
 
-## 2.6 Interconnections: Hubs and switches
+### Gbit Ethernet
+
+- Uses standard Ethernet frame format
+- Allows for point-to-point links and shared broadcast channels
+- In shared mode, CSMA/CD is used; short distances between nodes required for efficiency
+- Full-Duplex at 1 Gbps for point-to-point links
+- 10 Gbps now
+
+## 2.5 Interconnections: Hubs and switches
+
+### 2.5.1互连局域网网段的网络设备
 
 - 中继器: （物理层）
-- 转换器：信号转换的中继器如光电转换
+- 转换器: 信号转换的中继器, 如光电转换
 - 集线器: （物理层）: 集线器是中继器的一种形式，也称为多端口中继器。
 - 交换机: （链路层）:交换机是网桥的一种形式，也称为多端口网桥。
 
-### 2.6.1 Interconnecting with hubs
+### 2.5.2 Interconnecting with hubs
 
-- Backbone hub **interconnects LAN segments**
-- **Extends max distance** between nodes
-- But individual segment collision domains become one **large collision domain**
-- Can’t interconnect 10BaseT & 100BaseT
+#### 2.5.2.1 Features
 
-### 2.6.2 Switch
+- Backbone hub **interconnects LAN segments**.
+- **Extends max distance** between nodes.
+- But individual segment collision domains become one **large collision domain**.
+- Can’t interconnect 10BaseT & 100BaseT.
 
-#### 2.6.2.1 Link layer device
+![image-20230317211014001](Chapter2.assets/image-20230317211014001.png)
 
-- Stores and forwards Ethernet frames
-- Examines frame header and selectively forwards frame based on MAC dest address
+#### 2.5.2.2 5-4-3-2-1 Rule
+
+![image-20230317211130454](Chapter2.assets/image-20230317211130454.png)
+
+### 2.5.3 Switch
+
+#### 2.5.3.1 Link layer device
+
+- Stores and forwards Ethernet frames.
+- Examines frame header and selectively forwards frame based on MAC dest address.
 - When frame is to be forwarded on segment, uses CSMA/CD to access segment.
 
-#### 2.6.2.2 Transparent
+#### 2.5.3.2 Transparent
 
-- Hosts are unaware of presence of switches
+- Hosts are unaware of presence of switches.
 
-#### 2.6.2.3 Plug-and-play, self-learning
+#### 2.5.3.3 Plug-and-play, self-learning
 
-- Switches do not need to be configured
+- Switches do not need to be configured.
+
+----------------------------------
 
 #### Self learning
 
@@ -599,9 +637,9 @@ l 统一的帧格式简化了操作和管理。
 
 
 
-## 2.7 PPP
+## 2.6 PPP
 
-### 2.7.1 Point to Point Data Link Control
+### 2.6.1 Point to Point Data Link Control
 
 one sender, one receiver, one link: no media access control, no need for explicit MAC addressing.
 
@@ -609,9 +647,9 @@ Popular P2P DLC Protocols: PPP, HDLC
 
 ![image-20230317112539645](Chapter2.assets/image-20230317112539645.png)
 
-### 2.7.2 三个基本问题
+### 2.6.2 三个基本问题
 
-#### 2.7.2.1 封装成帧
+#### 2.6.2.1 封装成帧
 
 ![image-20230317112836362](Chapter2.assets/image-20230317112836362.png)
 
@@ -619,7 +657,7 @@ Popular P2P DLC Protocols: PPP, HDLC
 
 ![image-20230317113037129](Chapter2.assets/image-20230317113037129.png)
 
-#### 2.7.2.2 透明传输
+#### 2.6.2.2 透明传输
 
 封装成帧的问题
 
@@ -631,11 +669,11 @@ l 如果转义字符也出现数据当中，那么应在转义字符前面插入
 
 ![image-20230317114326689](Chapter2.assets/image-20230317114326689.png)
 
-#### 2.7.2.3 差错检测(Ommitted)
+#### 2.6.2.3 差错检测(Ommitted)
 
-### 2.7.3 PPP 协议的组成
+### 2.6.3 PPP 协议的组成
 
-### 2.7.4 PPP Design Requirements
+### 2.6.4 PPP Design Requirements
 
 packet framing: any network layer protocol, demultiplex upwards
 
@@ -647,19 +685,19 @@ connection liveness: detect, signal link failure to network layer.
 
 network layer address negotiation: endpoint can learn/config each other's network addr
 
-### 2.7.5 PPP non-requirements
+### 2.6.5 PPP non-requirements
 
 no err correction/recovery 
 
-### 2.7.6 PPP data frame
+### 2.6.6 PPP data frame
 
 ![image-20230317115638018](Chapter2.assets/image-20230317115638018.png)
 
-### 2.7.7 PPP Data Control Protocol
+### 2.6.7 PPP Data Control Protocol
 
 ![image-20230317120317459](Chapter2.assets/image-20230317120317459.png)
 
-### 2.7.8 PPP 协议的工作状态
+### 2.6.8 PPP 协议的工作状态
 
 l 当用户拨号接入 ISP 时，路由器的调制解调器对拨号做出确认，并建立一条物理连接。
 l PC 机向路由器发送一系列的 LCP 分组（封装成多个 PPP 帧）。
