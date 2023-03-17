@@ -98,9 +98,129 @@ create domain hourly_wage numeric(5,2) constraint value_test check(value > = 4.0
 
 ### Referential Integrity
 
-Ensures that a value that appears in one relation for a given set of attributes also appears for a certain set of attributes in another relation.
+- Ensures that a value that appears in one relation for a given set of attributes also appears for a certain set of attributes in another relation.
+
+- Primary and candidate keys and foreign keys can be specified as part of the SQL create table statement.
+
+- The `primary key` clause lists attributes that comprise the primary key.
+
+  - ```sql
+    create table customer(
+        customer_name	char(20),
+        customer_street	char(30),
+        customer_city	char(30),
+        primary key (customer_name)
+    )
+    ```
+
+- The `unique` clause lists attributes that comprise a candidate key.
+
+- The `foreign key` clause lists the attributes that comprise the foreign key and the name of the relation referenced by the foreign key. 
+
+  - By default, a foreign key references the primary key attributes of the referenced table.
+
+  - ```sql
+    create table account(
+        account_number	char(10),
+        branch_name		char(15),
+        balance	         integer,
+        primary key (account_number), 
+        foreign key (branch_name) references branch 
+    )
+    ```
+
+### Assertions
+
+#### Form
+
+```sql
+create assertion <assertion-name> check <predicate>
+```
+
+```sql
+not exists X such that not P(X)
+```
+
+#### Example
+
+```sql
+# The sum of all loan amounts for each branch must be less than the sum of all account balances at the branch.
+create assertion sum_constraint check (
+  not exists (
+      	select *
+		from branch
+    	where (
+			select sum(amount)
+           	from loan
+			where loan.branch_name = branch.branch_name 
+        ) >= (
+        select sum(balance) 
+        from account
+		where account.branch_name = branch.branch_name
+        )
+  )
+)
+```
 
 ## Authorization
+
+### Forms of authorization on parts of the database
+
+**Read**: allows reading, but not modification of data.
+**Insert**: allows insertion of new data, but not modification of existing data.
+**Update**: allows modification, but not deletion of data.
+**Delete**: allows deletion of data.
+
+### Forms of authorization to modify the database schema (covered in Chapter 8):
+
+**Index**: allows creation and deletion of indices.
+**Resources**: allows creation of new relations.
+**Alteration**: allows addition or deletion of attributes in a relation.
+**Drop**: allows deletion of relations.
+
+### Authorization Specification in SQL
+
+#### Functionality
+
+- The grant statement is used to confer authorization.
+- Granting a privilege on a view does not imply granting any privileges on the underlying relations.
+- The grantor of the privilege must already hold the privilege on the specified item (or be the database administrator).
+
+#### Form
+
+```sql
+grant <privilege list> # A list of Privileges All privilege, all allowable privileges
+on <relation name or view name> to <user list> # A list of user-id public, all current and future users of the system.
+```
+
+### Privileges in SQL
+
+**select**: allows read access to relation, or the ability to query using the view
+
+```sql
+grant select on branch to U1, U2, U3
+```
+
+**insert**: the ability to insert tuples
+**update**: the ability  to update using the SQL update statement
+**delete**: the ability to delete tuples.
+**all privileges**: used as a short form for all the allowable privileges
+
+### Revoking Authorization in SQL
+
+#### Functionality 
+
+- The revoke statement is used to revoke authorization.
+- If the same privilege was granted twice to the same user by different grantees, the user may retain the privilege after the revocation.
+- All privileges that depend on the privilege being revoked are also revoked
+
+#### Form
+
+```sql
+revoke <privilege list>
+on <relation name or view name> 
+from <user list>
+```
 
 ## Embedded SQL
 
