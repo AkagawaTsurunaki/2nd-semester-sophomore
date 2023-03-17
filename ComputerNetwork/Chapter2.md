@@ -6,100 +6,104 @@
 
 ## 2.1 Introduction and services of Link Layer
 
-### Some terminology
+### 2.1.1 Some terminology
 
 ![image-20230316104912794](Chapter2.assets/image-20230316104912794.png)
 
 ![image-20230316105146190](Chapter2.assets/image-20230316105146190.png)
 
-### Link Layer Service
+### 2.1.2 Link Layer Service
 
-#### Framing, link access
+#### 2.1.2.1 Framing, link access
 
 ![image-20230316105641817](Chapter2.assets/image-20230316105641817.png)
 
-#### Reliable delivery between adjacent nodes
+#### 2.1.2.2 Reliable delivery between adjacent nodes
 
 ![image-20230316105712776](Chapter2.assets/image-20230316105712776.png)
 
-#### Flow Control
+#### 2.1.2.3 Flow Control
 
 ![image-20230316105954588](Chapter2.assets/image-20230316105954588.png)
 
-#### Error Detection
+#### 2.1.2.4 Error Detection
 
 ![image-20230316110016202](Chapter2.assets/image-20230316110016202.png)
 
-#### Half-duplex and full-duplex
+#### 2.1.2.5 Half-duplex and full-duplex
 
 ![image-20230316110518333](Chapter2.assets/image-20230316110518333.png)
 
-### Adaptors Communicating
+### 2.1.3 Adaptors Communicating
 
 ![image-20230316110805137](Chapter2.assets/image-20230316110805137.png)
 
 ## 2.2 Error detection and correction
 
-
+### 2.2.1 Outline
 
 ![image-20230316111441445](Chapter2.assets/image-20230316111441445.png)
 
-#### Parity Checking
+### 2.2.2 Basic Methods
+
+#### 2.2.2.1 Parity Checking
 
 ![image-20230316111743492](Chapter2.assets/image-20230316111743492.png)
 
-#### Internet checksum
+#### 2.2.2.2 Internet Checksum
 
 ![image-20230316112852385](Chapter2.assets/image-20230316112852385.png)
 
-#### Ckecksumming: Cyclic Redundancy Check(CRC)
+#### 2.2.2.3 Ckecksumming: Cyclic Redundancy Check(CRC)
 
 ![image-20230316113411969](Chapter2.assets/image-20230316113411969.png)
 
-## 2.3 Multiple access Protocols
+## 2.3 Multiple Access Protocols
 
 ### 2.3.1 Multiple Access Links and Protocols
 
-#### Two types of “links
+#### 2.3.1.1 Two types of "links"
 
-##### point-to-point
+**Point-to-point**
 
-- PPP for dial-up access
-- point-to-point link between Ethernet switch and host
+- PPP for dial-up access.
+- Point-to-point link between Ethernet switch and host.
 
-##### broadcast (shared wire or medium)
+**Broadcast (shared wire or medium)**
 
-- traditional Ethernet
+- Traditional Ethernet
 - HFC
 - 802.11 wireless LAN
 
-### 2.3.2 Multiple Access protocols
+### 2.3.2 Multiple Access Protocols
 
-- Single shared broadcast channel
-- Two or more simultaneous transmissions by nodes: interference
+#### 2.3.2.1 Features
 
-#### Multiple access protocol
+- Single shared broadcast channel.
+- Two or more simultaneous transmissions by nodes: interference.
+
+#### 2.3.2.2 Multiple Access Protocol
 
 **Distributed algorithm**: Determines how nodes share channel, i.e., determine when node can transmit.
 **Note**: Communication about channel sharing must use channel itself! No out-of-band channel for coordination.
 
 ### 2.3.3 Ideal Multiple Access Protocol
 
-#### Features
+#### 2.3.3.1 Features
 
 - When $M$ nodes want to transmit, each can send at average rate $\dfrac{R}{M}$, supposed broadcast channel of rate $R$ bps.
 - Fully decentralized: 
-  - No special node to coordinate transmissions
-  - No synchronization of clocks, slots
+  - No special node to coordinate transmissions.
+  - No synchronization of clocks, slots.
 - Simple.
 
 ### 2.3.4 MAC Protocols: a taxonomy
 
-#### Three broad classes
+#### 2.3.4.1 Three broad classes
 
 ##### Channel Partitioning
 
-- divide channel into smaller “pieces” (timeslots, frequency, code) 
+- Divide channel into smaller “pieces” (timeslots, frequency, code) 
 - allocate piece to node for exclusive use
 
 ##### Random Access
@@ -111,35 +115,35 @@
 
 - l Nodes take turns, but nodes with more to send can take longer turns
 
-### 2.3.5 Channel Partitioning MAC protocols: TDMA (Time division multiple access)
+### 2.3.5 Channel Partitioning MAC Protocols: TDMA (Time Division Multiple Access)
 
 ![image-20230316125325671](Chapter2.assets/image-20230316125325671.png)
 
 
 
-### 2.3.6 Channel Partitioning MAC protocols: FDMA (Frequency division multiple access)
+### 2.3.6 Channel Partitioning MAC Protocols: FDMA (Frequency Division Multiple Access)
 
 ![image-20230316125407551](Chapter2.assets/image-20230316125407551.png)
 
 ### 2.3.7 Random Access Protocols
 
-#### Slotted ALOHA
+#### 2.3.7.1 Slotted ALOHA
 
 ![image-20230316131745153](Chapter2.assets/image-20230316131745153.png)
 
-#### Pure (unslotted ) ALOHA
+#### 2.3.7.2 Pure (unslotted) ALOHA
 
-- unslotted aloha: simpler, no-sync
+##### Features
 
-- when frame first arrivess : transmit immediately
+- Simpler, no-sync.
+- When frame first arrives : transmit immediately.
+- Collision probability increase: sent at $t_0 <-> [t_0-1, t_0+1]$.
 
-- collision probability increase: sent at $t_0 <-> [t_0-1, t_0+1]$
 
-efficiency: (proof omitted)
 
 ![image-20230316131838166](Chapter2.assets/image-20230316131838166.png)
 
-#### CSMA (Carrier Sense Multiple Access)
+#### 2.3.7.3 CSMA (Carrier Sense Multiple Access)
 
 - **CSMA**: listen before transmit:
   - if channel sensed idle: transmit entire frame.
@@ -150,16 +154,14 @@ efficiency: (proof omitted)
   - **collision**: causes entire packet transmission, time wasted.
   - **note**: role of distance & propagation delay in determining collision probability.
 
-#### CSMA/CD (Collision Detection)
+#### 2.3.7.4 CSMA/CD (Collision Detection)
 
-- CSMA/CD: carrier sensing
-
+- **CSMA/CD**: carrier sensing
   - collisions detected within short time.
-
+  
   - colliding transmission aborted, reducing channel wastage
-
-- Collision detection:
-
+  
+- **Collision detection**:
   - easy in wired LANs: measure signal strengths, compare transmitted, received signals.(if signal become strong, may collision happen)
   - difficult in wireless LANs: other signal from nature or mankind may affect signal.
 
@@ -415,26 +417,26 @@ $t_{\text{trans}}$ = time to transmit max-size frame
 - 集线器: （物理层）: 集线器是中继器的一种形式，也称为多端口中继器。
 - 交换机: （链路层）:交换机是网桥的一种形式，也称为多端口网桥。
 
-### Interconnecting with hubs
+### 2.6.1 Interconnecting with hubs
 
 - Backbone hub **interconnects LAN segments**
 - **Extends max distance** between nodes
 - But individual segment collision domains become one **large collision domain**
 - Can’t interconnect 10BaseT & 100BaseT
 
-### Switch
+### 2.6.2 Switch
 
-#### Link layer device
+#### 2.6.2.1 Link layer device
 
 - Stores and forwards Ethernet frames
 - Examines frame header and selectively forwards frame based on MAC dest address
 - When frame is to be forwarded on segment, uses CSMA/CD to access segment.
 
-#### Transparent
+#### 2.6.2.2 Transparent
 
 - Hosts are unaware of presence of switches
 
-#### Plug-and-play, self-learning
+#### 2.6.2.3 Plug-and-play, self-learning
 
 - Switches do not need to be configured
 
@@ -462,3 +464,206 @@ When switch receives a frame:
 	else flood # forward on all but the interface on which the frame arrived
 ```
 
+#### Traffic isolation
+
+- switch installation breaks subnet into LAN segments.
+- switch filters packets:
+  - same-LAN-segment frames not usually forwarded onto other LAN segments
+  - segments become separate collision domains
+
+#### Dedicated access
+
+- Switch with many interfaces
+- Hosts have direct connection to switch
+- No collisions; full duplex
+
+#### More on Switches
+
+cut-through switching: forward frame immediately -> reduce latency slightly
+
+combinations of shared/dedicated 10/100/100 Mbps interfaces
+
+#### Switches VS Routers
+
+- both store-and-forward devices
+  - routers: network layer devices(exam network layer headers)
+  - switches: link layer device
+
+- routers maintain routing tables, implement routing algorithms.
+- switches maintain switch tables, implement filtering, learning algorithms.
+
+![image-20230317105505788](Chapter2.assets/image-20230317105505788.png)
+
+| Functionality     | Hubs | Routers | switches |
+| ----------------- | ---- | ------- | -------- |
+| Traffic isolation | NO   | YES     | YES      |
+| Plug & play       | YES  | NO      | YES      |
+| Optimal routing   | NO   | YES     | NO       |
+| Cut through       | YES  | NO      | YES      |
+
+#### 利用以太网交换机可以很方便地 实现虚拟局域网
+
+- 虚拟局域网 VLAN 是由一些局域网网段构成的与物理位置无关的逻辑组。
+  - 这些网段具有某些共同的需求。
+  - 每一个 VLAN 的帧都有一个明确的标识符，指明发送这个帧的工作站是属于哪一个 VLAN。
+- 虚拟局域网其实只是局域网给用户提供的一种服务，而并不是一种新型局域网。
+
+![image-20230317110154661](Chapter2.assets/image-20230317110154661.png)
+
+- 作用: 虚拟局域网限制了接收广播信息的工作站数，使得网络不会因传播过多的广播信息(即“广播风暴”)而引起性能恶化
+
+#### 虚拟局域网使用的以太网帧格式
+
+- 虚拟局域网协议允许在以太网的帧格式中插入一个 4 字节的标识符，称为 VLAN 标记(tag)，用来指明发送该帧的工作站属于哪一个虚拟局域网。
+
+![image-20230317110658778](Chapter2.assets/image-20230317110658778.png)
+
+- 用户优先级: 3bits 数字越大优先级越高, 
+- CFI 1 bit detect whether MAC addr is classical.
+- VID: VLAN标记
+
+
+
+
+
+高速以太网
+100BASE-T 以太网
+l速率达到或超过 100 Mb/s 的以太网称为高速以太网。
+l在双绞线上传送 100 Mb/s 基带信号的星型拓扑以太网，仍使用 IEEE 802.3的CSMA/CD 协议。100BASE-T 以太网又称为快速以太网(Fast Ethernet)。
+
+
+
+l可在全双工方式下工作而无冲突发生, 故不使用 CSMA/CD 协议。
+lMAC 帧格式仍然是 802.3 标准规定的。
+l保持最短帧长不变，但将一个网段的最大电缆长度减小到 100 m。
+l帧间时间间隔从原来的 $9.6 \mu s$ 改为现在的$0.96 \mu s$。
+
+
+
+三种不同的物理层标准
+l100BASE-TX
+l使用 2 对 UTP 5 类线或屏蔽双绞线 STP。
+l100BASE-FX
+l使用 2 对光纤。
+l100BASE-T4
+l使用 4 对 UTP 3 类线或 5 类线。
+
+
+
+吉比特以太网
+l 允许在 1 Gb/s 下全双工和半双工两种
+方式工作。
+l 使用 802.3 协议规定的帧格式。
+l 在半双工方式下使用 CSMA/CD 协议
+（全双工方式不需要使用 CSMA/CD
+协议）。
+l 与 10BASE-T 和 100BASE-T 技术向
+后兼容。
+
+
+
+吉比特以太网的物理层
+l 1000BASE-X 基于光纤通道的物理
+层：
+l 1000BASE-SX SX表示短波长
+l 1000BASE-LX LX表示长波长
+l 1000BASE-CX CX表示铜线
+l 1000BASE-T
+l 使用 4对 5 类线 UTP
+
+
+
+10 吉比特以太网
+l 10 吉比特以太网与 10 Mb/s，100 Mb/s
+和 1 Gb/s 以太网的帧格式完全相同。
+l 10 吉比特以太网还保留了 802.3 标准规定
+的以太网最小和最大帧长，便于升级。
+l 10 吉比特以太网不再使用铜线而只使用光
+纤作为传输媒体。
+l 10 吉比特以太网只工作在全双工方式，因
+此没有争用问题，也不使用 CSMA/CD 协
+议。
+
+
+
+端到端的以太网传输
+l 10 吉比特以太网的出现，以太网的工作范
+围已经从局域网（校园网、企业网）扩大到
+城域网和广域网，从而实现了端到端的以太
+网传输。
+l 这种工作方式的好处是：
+l 成熟的技术
+l 互操作性很好
+l 在广域网中使用以太网时价格便宜。
+l 统一的帧格式简化了操作和管理。
+
+
+
+## 2.7 PPP
+
+### 2.7.1 Point to Point Data Link Control
+
+one sender, one receiver, one link: no media access control, no need for explicit MAC addressing.
+
+Popular P2P DLC Protocols: PPP, HDLC
+
+![image-20230317112539645](Chapter2.assets/image-20230317112539645.png)
+
+### 2.7.2 三个基本问题
+
+#### 2.7.2.1 封装成帧
+
+![image-20230317112836362](Chapter2.assets/image-20230317112836362.png)
+
+首部和尾部的一个重要作用就是进行**帧定界**
+
+![image-20230317113037129](Chapter2.assets/image-20230317113037129.png)
+
+#### 2.7.2.2 透明传输
+
+封装成帧的问题
+
+![image-20230317113152203](Chapter2.assets/image-20230317113152203.png)
+
+发送端的数据链路层在数据中出现控制字符“SOH”或“EOT”的前面插入一个转义字符“ESC”(其十六进制编码是 1B)。
+l 字节填充(byte stuffing)或字符填充(characterstuffing)——接收端的数据链路层在将数据送往网络层之前删除插入的转义字符。
+l 如果转义字符也出现数据当中，那么应在转义字符前面插入一个转义字符。当接收端收到连续的两个转义字符时，就删除其中前面的一个。
+
+![image-20230317114326689](Chapter2.assets/image-20230317114326689.png)
+
+#### 2.7.2.3 差错检测(Ommitted)
+
+### 2.7.3 PPP 协议的组成
+
+### 2.7.4 PPP Design Requirements
+
+packet framing: any network layer protocol, demultiplex upwards
+
+bit transparency: any bit pattern
+
+err detection:
+
+connection liveness: detect, signal link failure to network layer.
+
+network layer address negotiation: endpoint can learn/config each other's network addr
+
+### 2.7.5 PPP non-requirements
+
+no err correction/recovery 
+
+### 2.7.6 PPP data frame
+
+![image-20230317115638018](Chapter2.assets/image-20230317115638018.png)
+
+### 2.7.7 PPP Data Control Protocol
+
+![image-20230317120317459](Chapter2.assets/image-20230317120317459.png)
+
+### 2.7.8 PPP 协议的工作状态
+
+l 当用户拨号接入 ISP 时，路由器的调制解调器对拨号做出确认，并建立一条物理连接。
+l PC 机向路由器发送一系列的 LCP 分组（封装成多个 PPP 帧）。
+l 这些分组及其响应选择一些 PPP 参数，和进行网络层配置，NCP 给新接入的 PC机分配一个临时的 IP 地址，使 PC 机成为因特网上的一个主机。
+l 通信完毕时，NCP 释放网络层连接，收回原来分配出去的 IP 地址。接着，LCP 释放数据链路层连接。最后释放的是物理层的连接。
+
+![image-20230317121202670](Chapter2.assets/image-20230317121202670.png)
