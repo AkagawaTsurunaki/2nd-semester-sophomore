@@ -244,8 +244,9 @@ l16 billion billion network addresses
 
 ![image-20230320121751051](Chapter3.assets/image-20230320121751051.png)
 
-### 3.4.2 IPv4 addressing
+### 3.4.2 IPv4 Addressing
 
 ### 3.4.3 ICMP
 
 ### 3.4.4 IPv6
+
