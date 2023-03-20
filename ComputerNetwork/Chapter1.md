@@ -199,37 +199,53 @@ Protocols define **format**, **order** of messages send and received among netwo
   - circuit-like (guaranteed) performance
   - call setup required
 
+- 电路交换必须是面向连接的
 
+- 在通话（通信）的全部时间内，通话的两个用户始终占用端到端的固定传输带宽
+- 使用电路交换来传输计算机数据时，线路的传输效率往往很低.
+- Network resources (e.g., bandwidth) divided into “pieces”
+- Pieces allocated to calls
+- Resource piece idle if not used by owning call (no sharing)
+- Multiplexing: 多工，复用
+- Dividing link bandwidth into “pieces”
+- How to divide？
+  - Frequency division (FDM)
+  - Time division (TDM)
+  - Code division (CDMA)
 
-原因:
+### FDM
 
-n 电路交换必须是面向连接的
-n 在通话（通信）的全部时间内，通话的两个用户始终占用端
-到端的固定传输带宽
-n 使用电路交换来传输计算机数据时，线路的传输效率往往很
-低WHY？
+![image-20230320135351922](Chapter1.assets/image-20230320135351922.png)
 
+### TDM	
 
+![image-20230320135409201](Chapter1.assets/image-20230320135409201.png)
 
-- network resources (e.g., bandwidth) divided into “pieces”
-- n pieces allocated to calls
-- n resource piece idle if not used by owning call (no sharing)
+![image-20230320135426040](Chapter1.assets/image-20230320135426040.png)
 
+#### TDM of E1
 
+![image-20230320135503208](Chapter1.assets/image-20230320135503208.png)
 
-Multiplexing:多工，复用
-n dividing link
-bandwidth into
-“pieces”
-n How to divide？
-n frequency division
-n FDM
-n time division
-n TDM
-n code division
-n CDMA
+#### 时分复用可能会造成线路资源的浪费
 
+![image-20230320135535304](Chapter1.assets/image-20230320135535304.png)
 
+#### STDM: 统计时分复用
+
+![image-20230320135629877](Chapter1.assets/image-20230320135629877.png)
+
+#### Packet Switching
+
+![image-20230320135750896](Chapter1.assets/image-20230320135750896.png)
+
+##### Statistical Multiplexing
+
+![image-20230320135931166](Chapter1.assets/image-20230320135931166.png)
+
+Sequence of A & B packets does not have fixed pattern,
+shared on demand  statistical multiplexing.
+TDM: each host gets same slot in revolving TDM frame.
 
 ## 1.5 Network Access and Physical Media
 
